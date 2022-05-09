@@ -1,0 +1,343 @@
+<?xml version="1.0"?>  
+<robot name="r150_robot" xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:property name="PI" value="3.14159"/>    
+ <xacro:include filename="$(find r150_description)/urdf/r150_gazebo.urdf.xacro"/> 
+ <xacro:include filename="$(find r150_description)/urdf/hokuyo_ust10.urdf.xacro"/>
+ <xacro:include filename="$(find r150_description)/urdf/imu.xacro" />
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.47"
+        rpy="0 0 0" />
+      <mass
+        value="100" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/r150.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/r150.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="tire_Link1">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link1_joint"
+    type="fixed">
+    <origin
+      xyz="0.33326 -0.4625 0.20249"
+      rpy="0 0 1.57079632679489" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link1" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="tire_Link2">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link2_joint"
+    type="fixed">
+    <origin
+      xyz="0.33326 0.4625 0.20249"
+      rpy="0 0 -1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link2" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+  <link
+    name="tire_Link3">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link3_joint"
+    type="fixed">
+    <origin 
+      xyz="-0.36934 0.4625 0.20249"
+      rpy="0 0 -1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link3" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+  <link
+    name="tire_Link4">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link4_joint"
+    type="fixed">
+    <origin      
+      xyz="-0.36934 -0.4625 0.20249"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link4" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="cam_Link5">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="10" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/camera.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/camera.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="revo_5"
+    type="fixed">
+    <origin
+      xyz="0.880748397174192 0 0.63601"
+      rpy="0 0.78539816339745 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="cam_Link5" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+  <!-- VLP-16 -->
+  <xacro:include filename="$(find velodyne_description)/urdf/VLP-16.urdf.xacro"/>
+  <VLP-16 parent="base_link" name="velodyne" topic="/points_raw" hz="10" samples="1024" gpu="false" lasers="16" max_range="100">
+    <origin xyz="0 0 1.2" rpy="0 0 0" />
+  </VLP-16>
+
+ <!-- Lidar -->
+  <xacro:hokuyo_ust10_mount prefix="sick" parent_link="base_link" topic="scan"
+                                x="0.88"
+                                y="0"
+                                z="0.47"
+                                roll="0"
+                                pitch="0"
+                                yaw="0" />
+  <!-- IMU -->
+  <xacro:imu_macro suffix="imu" parent="base_link" namespace=""
+                                x="0"
+                                y="0"
+                                z="0.47"
+                                roll="0"
+                                pitch="0"
+                                yaw="0"
+                                fps="200" />
+ <xacro:r150_gazebo />
+</robot>
+

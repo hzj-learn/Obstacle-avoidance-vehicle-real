@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+  <!--load r150 model & drivers file-->
+  <include file="$(find r150_bringup)/launch/base.launch" />
+
+  <!-- lidar odometry -->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"/>
+
+  <!-- EKF  -->
+  <include file="$(find r150_bringup)/launch/r150_ekf_no_tf.launch"/>
+
+  <!--load map file-->
+  <include file="$(find r150_ndt_localizer)/launch/map_loader.launch" />
+
+  <!-- Points Downsample-->
+  <include file="$(find r150_ndt_localizer)/launch/points_downsample.launch" />
+
+  <!-- NDT Matching-->
+  <include file="$(find r150_ndt_localizer)/launch/ndt_matching.launch" />
+
+  <!-- Waypoints Loader-->
+  <include file="$(find waypoint_loader)/launch/waypoint_loader.launch" />
+
+  <!-- Plannning-->
+  <include file="$(find lexicographic_planning)/launch/run.launch" />
+
+</launch>

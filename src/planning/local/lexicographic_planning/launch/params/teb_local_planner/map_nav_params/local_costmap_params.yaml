@@ -1,0 +1,17 @@
+local_costmap:
+   global_frame: map
+   robot_base_frame: base_link
+   update_frequency: 5.0
+   publish_frequency: 5.0
+   width: 8
+   height: 8
+   resolution: 0.1
+   static_map: false
+   rolling_window: true
+   static_layer: {map_topic: planning/obstacle/map}
+
+   plugins:
+   - {name: static_layer,       type: "costmap_2d::StaticLayer"}
+   - {name: obstacles,        type: "costmap_2d::VoxelLayer"}
+   - {name: costmap_prohibition_layer,        type: "costmap_prohibition_layer_namespace::CostmapProhibitionLayer"}     
+   - {name: inflation_layer,        type: "costmap_2d::InflationLayer"}

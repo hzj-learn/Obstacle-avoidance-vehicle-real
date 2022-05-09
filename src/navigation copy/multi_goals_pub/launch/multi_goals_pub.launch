@@ -1,0 +1,6 @@
+<launch>
+  <!--多目标点可视化-->
+  <node name="multi_goals_vis" pkg="multi_goals_pub" type="multi_goals_vis"/>
+  <!--多目标点发布-->
+  <node name="multi_goals_pub" pkg="multi_goals_pub" type="multi_goals_pub"/>
+</launch>

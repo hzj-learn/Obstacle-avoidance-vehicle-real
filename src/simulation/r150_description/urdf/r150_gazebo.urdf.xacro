@@ -1,0 +1,63 @@
+<?xml version="1.0"?>  
+ <robot xmlns:xacro="http://ros.org/wiki/xacro" name="r150_gazebo">
+<xacro:macro name="r150_gazebo">  
+    <gazebo reference="base_link">  
+    </gazebo>  
+    <gazebo reference="tire_Link1">  
+    </gazebo>  
+    <gazebo reference="tire_Link2">  
+    </gazebo>  
+   <gazebo reference="tire_Link3">
+  </gazebo>
+   <gazebo reference="tire_Link4">
+  </gazebo>
+
+        <transmission name="tire_Link1_trans" type="SimpleTransmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="tire_Link1_motor">
+                <mechanicalReduction>50</mechanicalReduction>
+            </actuator>
+            <joint name="tire_Link1_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <transmission name="tire_Link2_trans" type="SimpleTransmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="tire_Link2_motor">
+                <mechanicalReduction>50</mechanicalReduction>
+            </actuator>
+            <joint name="tire_Link2_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <transmission name="tire_Link3_trans" type="SimpleTransmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="tire_Link3_motor">
+                <mechanicalReduction>50</mechanicalReduction>
+            </actuator>
+            <joint name="tire_Link3_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+        <transmission name="tire_Link4_trans" type="SimpleTransmission">
+            <type>transmission_interface/SimpleTransmission</type>
+            <actuator name="tire_Link4_motor">
+                <mechanicalReduction>50</mechanicalReduction>
+            </actuator>
+            <joint name="tire_Link4_joint">
+                <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+            </joint>
+        </transmission>
+
+    <!-- Controller configurations -->
+    <gazebo>
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo>
+
+</xacro:macro>  	
+</robot>

@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<launch>
+<!-- r150 driver -->
+  <include file="$(find chassis_driver)/launch/chassis_driver_node.launch"/>
+
+  <!--imu-->
+  <node pkg="lpms_imu" type="lpms_imu_node" name="lpms_imu_node"/>
+
+  <!--rplidar-->
+  <include file="$(find rplidar_ros)/launch/rplidar_s1.launch" />
+
+<!-- lidar odometry -->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"/>
+
+<!-- EKF  -->
+  <include file="$(find r150_simulation)/launch/r150_ekf.launch"/>
+
+<!-- add map  -->
+  <arg name="map_file" default="$(find r150_simulation)/maps/agriculture_world.yaml"/>
+  <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+<!-- multi goals  -->
+  <include file="$(find multi_goals_pub)/launch/multi_goals_pub.launch"/>
+
+<!--tf-->
+  <node pkg="tf" type="static_transform_publisher" name="laser_to_base" args="0.88 0 0.47 0 0 0 base_link laser" />
+
+<!-- Localization  -->
+  <node pkg="amcl" type="amcl" name="amcl">
+    <param name="min_particles"             value="1000"/>
+    <param name="max_particles"             value="5000"/>
+    <param name="kld_err"                   value="0.05"/>
+    <param name="update_min_d"              value="0.20"/>
+    <param name="update_min_a"              value="0.50"/>
+    <param name="resample_interval"         value="5"/>
+    <param name="transform_tolerance"       value="0.5"/>
+    <param name="recovery_alpha_slow"       value="0.00"/>
+    <param name="recovery_alpha_fast"       value="0.00"/>
+    <param name="initial_pose_x"            value="0.0"/>
+    <param name="initial_pose_y"            value="0.0"/>
+    <param name="initial_pose_a"            value="0.0"/>
+    <param name="gui_publish_rate"          value="50.0"/>
+    <param name="laser_max_range"           value="30"/>
+    <param name="laser_max_beams"           value="180"/>
+    <param name="laser_z_hit"               value="0.5"/>
+    <param name="laser_z_short"             value="0.05"/>
+    <param name="laser_z_max"               value="0.05"/>
+    <param name="laser_z_rand"              value="0.5"/>
+    <param name="laser_sigma_hit"           value="0.2"/>
+    <param name="laser_lambda_short"        value="0.1"/>
+    <param name="laser_likelihood_max_dist" value="2.0"/>
+    <param name="laser_model_type"          value="likelihood_field"/>
+    <param name="odom_model_type"           value="diff"/>
+    <param name="odom_alpha1"               value="0.1"/>
+    <param name="odom_alpha2"               value="0.1"/>
+    <param name="odom_alpha3"               value="0.2"/>
+    <param name="odom_alpha4"               value="0.2"/>
+    <param name="odom_frame_id"             value="odom_combined"/>
+    <param name="base_frame_id"             value="base_link"/>
+  </node>
+
+<!-- DWA Navigation --> 
+  <node pkg="move_base" type="move_base" respawn="true" name="move_base" output="screen">
+
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/move_base_params.yaml" command="load" />
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/costmap_common_params.yaml" command="load" ns="local_costmap" />   
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/local_costmap_params.yaml" command="load" />   
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find r150_simulation)/config/dwa_local_planner/navfn.yaml" command="load" />
+
+    <param name="global_costmap/global_frame" value="map"/>
+    <param name="global_costmap/robot_base_frame" value="base_link"/>
+    <param name="local_costmap/global_frame" value="odom_combined"/>
+    <param name="local_costmap/robot_base_frame" value="base_link"/>
+
+  </node>
+
+         <!--  ************** TEB Navigation ***************  
+	<node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
+  	  	<rosparam file="$(find r150_simulation)/config/teb_local_planner/costmap_common_params.yaml" command="load" ns="global_costmap" />
+  	 	<rosparam file="$(find r150_simulation)/config/teb_local_planner/costmap_common_params.yaml" command="load" ns="local_costmap" />
+  		<rosparam file="$(find r150_simulation)/config/teb_local_planner/local_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find r150_simulation)/config/teb_local_planner/global_costmap_params.yaml" command="load" />
+  		<rosparam file="$(find r150_simulation)/config/teb_local_planner/teb_local_planner_params.yaml" command="load" />
+
+		<rosparam file="$(find r150_simulation)/config/teb_local_planner/costmap_converter_params.yaml" command="load" /> 
+
+		<param name="base_global_planner" value="global_planner/GlobalPlanner" />
+		<param name="planner_frequency" value="1.0" />
+		<param name="planner_patience" value="5.0" />
+
+		<param name="base_local_planner" value="teb_local_planner/TebLocalPlannerROS" />
+		<param name="controller_frequency" value="5.0" />
+		<param name="controller_patience" value="15.0" />
+	</node>
+-->
+  <!-- rviz-->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find r150_bringup)/rviz/navigation.rviz" />
+
+  <!-- trajectory display-->
+  <node pkg="hector_trajectory_server" type="hector_trajectory_server" name="trajectory_server">
+    <param name="/target_frame_name" value="map" />
+    <param name="/source_frame_name" value="base_link" />
+    <param name="/trajectory_update_rate" value="10.0" />
+    <param name="/trajectory_publish_rate" value="10.0" />
+  </node>
+
+</launch>

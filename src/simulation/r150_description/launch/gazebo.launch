@@ -1,0 +1,44 @@
+<launch>
+    <arg name="world_name" default="$(find r150_description)/world/agriculture_world_with_dynamic_objects.world"/>
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    	<arg name="world_name" value="$(arg world_name)"/> <!-- world_name is wrt GAZEBO_RESOURCE_PATH environment variable -->
+    	<arg name="paused" value="false"/>
+    	<arg name="use_sim_time" value="true"/>
+    	<arg name="gui" value="true"/>
+    	<arg name="headless" value="false"/>
+    	<arg name="debug" value="false"/>
+    </include>
+
+    <!-- 加载机器人模型描述参数 -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find r150_description)/urdf/r150.urdf.xacro'" />
+
+    <!-- 运行joint_state_publisher节点，发布机器人的关节状态  -->
+   <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" ></node> -->
+
+    <!-- 运行robot_state_publisher节点，发布tf  -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"  output="screen" >
+        <param name="publish_frequency" type="double" value="50.0" />
+    </node>
+
+    <!-- 在gazebo中加载机器人模型-->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+          args="-urdf -model r150_robot_final -param robot_description"/> 
+
+    <!-- 在rviz中加载机器人模型-->
+    <!--node name="rviz" pkg="rviz" type="rviz" args="-d $(find r150_description)/rviz/default.rviz" /-->
+
+    <node name="tf_footprint_base" pkg="tf" type="static_transform_publisher"  args="0 0 0 0 0 0 base_link base_footprint 40" />
+
+    <!-- 加载控制器插件-->
+    <rosparam file="$(find r150_description)/config/controller.yaml" command="load"/>
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller drive_controller">
+    </node>
+
+    <node name="cmd_vel_relay" type="relay" pkg="topic_tools" args="/cmd_vel /drive_controller/cmd_vel" />
+
+    <!-- Launch a rqt steering GUI for publishing to /cmd_vel -->
+    <node pkg="rqt_robot_steering" type="rqt_robot_steering" name="rqt_robot_steering" >
+    	<param name="default_topic" value="/cmd_vel"/>
+    </node>
+
+</launch>

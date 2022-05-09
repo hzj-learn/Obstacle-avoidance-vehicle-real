@@ -1,0 +1,8 @@
+<launch>
+    <node name="chassis_driver" pkg="chassis_driver" type="chassis_driver_node" output="screen"/>
+    <arg name="gui" default="False" />
+    <!--param name="use_gui" value="$(arg gui)" /-->
+    <group if = "$(arg gui)">
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find chassis_driver)/rviz/data_viewer.rviz" required="true"/>
+    </group>
+</launch>

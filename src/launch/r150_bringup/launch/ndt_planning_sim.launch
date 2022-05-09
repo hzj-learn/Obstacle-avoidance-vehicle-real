@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<launch>
+  <param name="/use_sim_time" value="true" />
+
+  <param name="robot_description" textfile="$(find r150_description)/urdf/r150.urdf.xacro" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+
+  <include file="$(find r150_bringup)/launch/base_velocity_smoother.launch" />
+
+  <!-- lidar odometry -->
+  <include file="$(find rf2o_laser_odometry)/launch/rf2o_laser_odometry.launch"/>
+
+  <!-- EKF  -->
+  <include file="$(find r150_bringup)/launch/r150_ekf_no_tf.launch"/>
+
+  <!--load map file-->
+  <include file="$(find r150_ndt_localizer)/launch/map_loader.launch" />
+
+  <!-- Points Downsample-->
+  <include file="$(find r150_ndt_localizer)/launch/points_downsample.launch" />
+
+  <!-- NDT Matching-->
+  <include file="$(find r150_ndt_localizer)/launch/ndt_matching.launch" />
+
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="base_to_lidar" args="0 0 1.238 0 0 0 1 base_link velodyne" /-->
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="base_to_laser" args="0.88 0 0.47 0 0 0 1  base_link laser" /-->
+  <!--node pkg="tf2_ros" type="static_transform_publisher" name="base_to_chassis" args="0 0 0 0 0 0 1 base_link chassis_link" /-->
+  <!-- Waypoints Loader-->
+  <include file="$(find waypoint_loader)/launch/waypoint_loader.launch" />
+
+  <include file="$(find lexicographic_planning)/launch/run.launch" />
+
+</launch>

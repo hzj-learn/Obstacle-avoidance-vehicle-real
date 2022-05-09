@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <arg name="wps_marker_topic" default="/waypoint_saver_array" />
+  <arg name="current_pose_topic" default="/current_pose" />
+  <arg name="path_topic" default="/waypoints_raw" />
+  <arg name="waypoints_csv" default="$(find waypoint_saver)/../path/saved_waypoints.csv" />
+  <arg name="map_frame" default="map" />
+  <arg name="wp_interval" default="0.1" />
+
+  <node name="waypoint_saver_node" pkg="waypoint_saver" type="waypoint_saver_node" output="screen" respawn="true" >
+    <param name="wps_marker_topic" value="$(arg wps_marker_topic)" />
+    <param name="current_pose_topic" value="$(arg current_pose_topic)" />
+    <param name="path_topic" value="$(arg path_topic)" />
+    <param name="waypoints_csv" value="$(arg waypoints_csv)" />
+    <param name="map_frame" value="$(arg map_frame)" />
+    <param name="wp_interval" value="$(arg wp_interval)" />
+  </node>
+</launch>

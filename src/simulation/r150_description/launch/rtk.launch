@@ -1,0 +1,13 @@
+<launch>
+  <arg name="model" />
+  <arg name="gui" default="False" />
+  <param name="robot_description" textfile="$(find r150_description)/urdf/r150.urdf.xacro" />
+  <param name="use_gui" value="$(arg gui)" />
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+ 
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find r150_description)/rviz/default.rviz" />
+
+  <node pkg="tf2_ros" type="static_transform_publisher" name="rtk_to_base_link" args="-0.33660412000624 0.0 -0.945317836708832 0  0 0  1 rtk_link base_link" />
+  <node pkg="tf2_ros" type="static_transform_publisher" name="cam_to_camera" args="0 0 0 0 0 0 1 cam_Link5 camera_link" />
+</launch>

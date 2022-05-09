@@ -1,0 +1,4 @@
+<launch>
+  <node pkg="scantopointcloud2" type="scantopointcloud2" name="scantopointcloud2" output="screen">
+  </node>
+</launch>

@@ -1,0 +1,445 @@
+<?xml version="1.0"?>  
+<robot name="r150_robot" xmlns:xacro="http://ros.org/wiki/xacro">  
+  <xacro:property name="PI" value="3.14159"/>    
+ <xacro:include filename="$(find r150_description)/urdf/r150_gazebo.urdf.xacro"/> 
+ <xacro:include filename="$(find r150_description)/urdf/hokuyo_ust10.urdf.xacro"/>
+ <xacro:include filename="$(find r150_description)/urdf/imu.xacro" />
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.47"
+        rpy="0 0 0" />
+      <mass
+        value="100" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/r150.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/r150.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="tire_Link1">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link1_joint"
+    type="continuous">
+    <origin
+      xyz="0.33326 -0.4625 0.20249"
+      rpy="0 0 1.57079632679489" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link1" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="tire_Link2">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link2_joint"
+    type="continuous">
+    <origin
+      xyz="0.33326 0.4625 0.20249"
+      rpy="0 0 -1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link2" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+  <link
+    name="tire_Link3">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_L.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link3_joint"
+    type="continuous">
+    <origin 
+      xyz="-0.36934 0.4625 0.20249"
+      rpy="0 0 -1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link3" />
+    <axis
+      xyz="-1 0 0" />
+  </joint>
+  <link
+    name="tire_Link4">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="500" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 1.57079632679" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/wheel_R.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="tire_Link4_joint"
+    type="continuous">
+    <origin      
+      xyz="-0.36934 -0.4625 0.20249"
+      rpy="0 0 1.5707963267949" />
+    <parent
+      link="base_link" />
+    <child
+      link="tire_Link4" />
+    <axis
+      xyz="1 0 0" />
+  </joint>
+  <link
+    name="cam_Link5">
+    <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="10" />
+      <inertia
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/camera.DAE" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.752941176470588 0.752941176470588 0.752941176470588 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://r150_description/meshes/camera.DAE" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="revo_5"
+    type="fixed">
+    <origin
+      xyz="0.880748397174192 0 0.63601"
+      rpy="0 0.78539816339745 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="cam_Link5" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="0"
+      upper="0"
+      effort="0"
+      velocity="0" />
+  </joint>
+
+  <!-- VLP-16 -->
+    <joint name="velodyne_base_mount_joint" type="fixed">
+    <origin xyz="0 0 1.2" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child link="velodyne_base_link"/>
+    </joint>
+
+    <link name="velodyne_base_link">
+      <inertial>
+        <mass value="0.83"/>
+        <origin xyz="0 0 1.2"/>
+        <inertia 
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae" />
+        </geometry>
+      </visual>
+      <visual>
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0 0 1.2"/>
+        <geometry>
+          <cylinder radius="0.0516" length="0.0717"/>
+        </geometry>
+      </collision>
+    </link>
+
+    <joint name="velodyne_base_scan_joint" type="fixed" >
+      <origin xyz="0 0 0.0377" rpy="0 0 0" />
+      <parent link="velodyne_base_link" />
+      <child link="velodyne"/>
+    </joint>
+
+    <link name="velodyne">
+      <inertial>
+        <mass value="0.01"/>
+        <origin xyz="0 0 0"/>
+        <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 -0.0377" />
+        <geometry>
+          <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae" />
+        </geometry>
+      </visual>
+    </link>
+
+ <!-- Lidar -->
+      <link name="laser">
+        <inertial>
+          <mass value="1.1" />
+          <origin xyz="0 0 0" />
+        <inertia 
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+      </inertial>
+      </link>
+
+    <joint name="sick_laser_mount_joint" type="fixed">
+      <origin rpy="0 0 0" xyz="0.88 0 0.47"/>
+      <parent link="base_link" />
+      <child link="sick_laser_mount" />
+    </joint>
+
+    <link name="sick_laser_mount">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <!-- Origin of this mesh is the base of the bracket. -->
+          <mesh filename="package://r150_description/meshes/hokuyo_ust10.stl" />
+        </geometry>
+        <material name="dark_grey" />
+      </visual>
+    </link>
+
+    <joint name="sick_laser_joint" type="fixed">
+      <!-- This offset is from the base of the bracket to the LIDAR's focal point. -->
+      <origin xyz="0 0 0.0474" rpy="0 0 0" />
+      <parent link="sick_laser_mount" />
+      <child link="laser" />
+    </joint>
+
+  <!-- IMU -->
+    <joint name="imu_joint" type="fixed">
+      <origin xyz="0 0 0.47" rpy="0 0 0" />
+      <parent link="base_link"/>
+      <child  link="imu_link"/>
+    </joint>
+
+    <link name="imu_link">
+      <visual>
+        <geometry>
+          <box size="0.05 0.05 0.05"/>
+        </geometry>
+        <origin rpy="0 0 0.47" xyz="0 0 0"/>
+        <material name="blue">
+          <color rgba="0.0 0.0 255.0 2.0"/>
+        </material>
+      </visual>
+      <inertial>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <mass value="0.01"/>
+        <inertia 
+        ixx="32.191597162306"
+        ixy="2.207529493388"
+        ixz="6.14493557252508"
+        iyy="42.5483647039672"
+        iyz="-2.92026874732374"
+        izz="44.9758253820521" />
+      </inertial>
+    </link>
+ <xacro:r150_gazebo />
+</robot>
+
